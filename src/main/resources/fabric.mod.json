@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "cavebiomes",
+  "version": "${version}",
+  "name": "CaveBiomeAPI",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/cavebiomeapi/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.alphastudios.cavebiomeapi.core.CavesAPIClient"
+    ],
+    "main": [
+      "com.alphastudios.cavebiomeapi.core.CavesAPI"
+    ]
+  },
+  "mixins": [
+    "cavebiomeapi.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "minecraft": "1.17"
+  }
+}

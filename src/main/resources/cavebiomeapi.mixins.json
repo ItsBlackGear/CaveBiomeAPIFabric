@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.alphastudios.cavebiomeapi.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ChunkGeneratorMixin",
+    "HorizontalVoronoiBiomeAccessTypeMixin",
+    "LayerAccessor",
+    "VanillaLayeredBiomeSourceMixin",
+    "structure.OceanMonumentFeatureMixin",
+    "structure.WoodlandMansionFeatureMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
