@@ -1,24 +1,21 @@
 package com.alphastudios.cavebiomeapi.core.api;
 
-import com.alphastudios.cavebiomeapi.core.CavesAPI;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import com.alphastudios.cavebiomeapi.core.registries.CaveBiomes;
-import com.alphastudios.cavebiomeapi.mixin.LayerAccessor;
-import net.minecraft.SharedConstants;
-import net.minecraft.util.Util;
+
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
-import net.minecraft.world.biome.BuiltinBiomes;
-import net.minecraft.world.biome.source.BiomeLayerSampler;
+import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 import net.minecraft.world.dimension.DimensionType;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //<>
 
 public class CaveBiomeAPI {
-    private static BiomeLayerSampler caveLayer;
+    private static MultiNoiseBiomeSource caveBiomeSource;
 
     /**
      * Initializes the cave generation into the biome provider.
@@ -26,12 +23,11 @@ public class CaveBiomeAPI {
      * @implNote This initialization calls the biome provider seed and the cave biome size.
      *
      * @param seed the biome provider seed
-     * @param size the cave biome size
      *
      * @see com.alphastudios.cavebiomeapi.mixin.VanillaLayeredBiomeSourceMixin#initialize(long, boolean, boolean, Registry, CallbackInfo)
      */
-    public static void initializeCaveBiomes(Registry<Biome> biomeRegistry, long seed, int size) {
-        caveLayer = CaveLayer.generateCaveLayers(biomeRegistry, seed, size);
+    public static void initializeCaveBiomes(Registry<Biome> biomeRegistry, long seed) {
+    	caveBiomeSource = CaveLayer.create(biomeRegistry, seed);
     }
 
     /**
@@ -66,20 +62,7 @@ public class CaveBiomeAPI {
      * @return the dynamicregistry instance of the biome if done properly
      */
     public static Biome sample(Registry<Biome> dynamicBiomeRegistry, int x, int z) {
-        int resultBiomeID = ((LayerAccessor)caveLayer).getCaveSampler().sample(x, z);
-        Biome biome = dynamicBiomeRegistry.get(resultBiomeID);
-        if (biome == null) {
-            if (SharedConstants.isDevelopment) {
-                throw Util.throwOrPause(new IllegalStateException("Unknown biome id: " + resultBiomeID));
-            } else {
-                // Spawn ocean if we can't resolve the biome from the layers.
-                RegistryKey<Biome> backupBiomeKey = BuiltinBiomes.fromRawId(0);
-                CavesAPI.LOGGER.warn("Unknown biome id: ${}. Will spawn ${} instead.", resultBiomeID, backupBiomeKey.getValue());
-                return dynamicBiomeRegistry.get(backupBiomeKey);
-            }
-        } else {
-            return biome;
-        }
+    	return caveBiomeSource.getBiomeForNoiseGen(x, 0, z);
     }
 
     /**
@@ -89,12 +72,12 @@ public class CaveBiomeAPI {
      *
      * @param biome the biome for injection
      */
-    public static void addCaveBiome(Biome biome) {
+    public static void addCaveBiome(Biome biome, Biome.MixedNoisePoint noise) {
         if (biome == null || BuiltinRegistries.BIOME.getKey(biome).isEmpty()) {
             throw new NullPointerException("CaveBiomeAPI's addCaveBiome method must take a registered biome. Null or unregistered biomes will be rejected.");
         }
         // Store the key as we will get the correct biome instance when the biome source is created.
-        addCaveBiome(BuiltinRegistries.BIOME.getKey(biome).get());
+        addCaveBiome(BuiltinRegistries.BIOME.getKey(biome).get(), noise);
     }
 
     /**
@@ -104,13 +87,13 @@ public class CaveBiomeAPI {
      *
      * @param biome the biome for injection
      */
-    public static void addCaveBiome(RegistryKey<Biome> biome) {
+    public static void addCaveBiome(RegistryKey<Biome> biome, Biome.MixedNoisePoint noise) {
         if (biome == null) {
             throw new NullPointerException("CaveBiomeAPI's addCaveBiome method must take a registered biome. Null or unregistered biomes will be rejected.");
         }
         // Store the key as we will get the correct biome instance when the biome source is created.
 //        CaveLayer.caveBiomeKeys.add(BuiltinRegistries.BIOME.getRawId(biome));
-        CaveLayer.caveBiomeKeys.add(biome);
+        CaveLayer.addCaveBiome(biome, noise);
     }
 
     /**
@@ -119,9 +102,9 @@ public class CaveBiomeAPI {
      * @see #addCaveBiome(Biome)
      */
     public static void addDefaultCaves() {
-        CaveBiomeAPI.addCaveBiome(CaveBiomes.CAVE);
-        CaveBiomeAPI.addCaveBiome(BiomeKeys.LUSH_CAVES);
-        CaveBiomeAPI.addCaveBiome(BiomeKeys.DRIPSTONE_CAVES);
+		CaveBiomeAPI.addCaveBiome(CaveBiomes.CAVE, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		CaveBiomeAPI.addCaveBiome(BiomeKeys.LUSH_CAVES, new Biome.MixedNoisePoint(-0.2F, 0.2F, 0.325F, -0.15F, 0.0F));
+		CaveBiomeAPI.addCaveBiome(BiomeKeys.DRIPSTONE_CAVES, new Biome.MixedNoisePoint(0.0F, -0.325F, -0.275F, 0.2F, 0.0F));
     }
 
     static {
