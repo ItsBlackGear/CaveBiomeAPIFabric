@@ -22,7 +22,7 @@ public class VanillaLayeredBiomeSourceMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void initialize(long seed, boolean legacyBiomeInitLayer, boolean largeBiomes, Registry<Biome> biomeRegistry, CallbackInfo ci) {
-        CaveBiomeAPI.initializeCaveBiomes(biomeRegistry, seed, 4);
+        CaveBiomeAPI.initializeCaveBiomes(biomeRegistry, seed);
     }
 
     /**

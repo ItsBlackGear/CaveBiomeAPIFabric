@@ -39,7 +39,7 @@ public class ChunkGeneratorMixin {
         int z = chunkPos.getStartZ();
         BlockPos pos = new BlockPos(x, region.getBottomY(), z);
         Biome biome = this.populationSource.getBiomeForNoiseGen(BiomeCoords.fromChunk(chunkPos.x) + BiomeCoords.fromBlock(8), region.getBottomY() + 10, BiomeCoords.fromChunk(chunkPos.z) + BiomeCoords.fromBlock(8));
-        if (!CaveLayer.caveBiomeSet.contains(biome)) return;
+        if (!CaveLayer.CAVE_BIOME_LIST.contains(biome)) return;
 
         ChunkRandom chunkRandom = new ChunkRandom();
         long seed = chunkRandom.setPopulationSeed(region.getSeed(), x, z);
