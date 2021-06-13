@@ -80,7 +80,7 @@ public class CaveBiomeAPI {
         addCaveBiome(BuiltinRegistries.BIOME.getKey(biome).get(), noise);
     }
 
-    // Compatibility with 2.0
+    // Compatibility with 1.0
     public static void addCaveBiome(Biome biome) {
         addCaveBiome(biome, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
     }
@@ -100,7 +100,7 @@ public class CaveBiomeAPI {
         CaveLayer.addCaveBiome(biome, noise);
     }
 
-    // Compatibility with 2.0
+    // Compatibility with 1.0
     public static void addCaveBiome(RegistryKey<Biome> biome) {
         addCaveBiome(biome, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
     }
