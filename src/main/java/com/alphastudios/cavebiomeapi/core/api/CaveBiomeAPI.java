@@ -94,7 +94,7 @@ public class CaveBiomeAPI {
             throw new NullPointerException("CaveBiomeAPI's addCaveBiome method must take a registered biome. Null or unregistered biomes will be rejected.");
         }
         // Store the key as we will get the correct biome instance when the biome source is created.
-        CaveLayer.caveBiomeKeys.add(BuiltinRegistries.BIOME.getKey(biome).get());
+        addCaveBiome(BuiltinRegistries.BIOME.getKey(biome).get());
     }
 
     /**
