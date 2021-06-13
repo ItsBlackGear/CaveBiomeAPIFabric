@@ -80,6 +80,11 @@ public class CaveBiomeAPI {
         addCaveBiome(BuiltinRegistries.BIOME.getKey(biome).get(), noise);
     }
 
+    // Compatibility with 2.0
+    public static void addCaveBiome(Biome biome) {
+        addCaveBiome(biome, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+    }
+
     /**
      * Injects a CaveBiome into the biomeLayer
      *
@@ -92,14 +97,18 @@ public class CaveBiomeAPI {
             throw new NullPointerException("CaveBiomeAPI's addCaveBiome method must take a registered biome. Null or unregistered biomes will be rejected.");
         }
         // Store the key as we will get the correct biome instance when the biome source is created.
-//        CaveLayer.caveBiomeKeys.add(BuiltinRegistries.BIOME.getRawId(biome));
         CaveLayer.addCaveBiome(biome, noise);
+    }
+
+    // Compatibility with 2.0
+    public static void addCaveBiome(RegistryKey<Biome> biome) {
+        addCaveBiome(biome, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
     }
 
     /**
      * Injects the selected CaveBiomes into the biomeLayer
      *
-     * @see #addCaveBiome(Biome)
+     * @see #addCaveBiome(Biome, Biome.MixedNoisePoint)
      */
     public static void addDefaultCaves() {
 		CaveBiomeAPI.addCaveBiome(CaveBiomes.CAVE, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
