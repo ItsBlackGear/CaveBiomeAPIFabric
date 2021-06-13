@@ -80,17 +80,13 @@ public class CaveBiomeAPI {
         addCaveBiome(BuiltinRegistries.BIOME.getKey(biome).get(), noise);
     }
 
-    // Compatibility with 1.0
-    public static void addCaveBiome(Biome biome) {
-        addCaveBiome(biome, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-    }
-
     /**
      * Injects a CaveBiome into the biomeLayer
      *
      * @see #addDefaultCaves()
      *
      * @param biome the biome for injection
+     * @param noise the mixed noise point used for generation
      */
     public static void addCaveBiome(RegistryKey<Biome> biome, Biome.MixedNoisePoint noise) {
         if (biome == null) {
@@ -98,11 +94,6 @@ public class CaveBiomeAPI {
         }
         // Store the key as we will get the correct biome instance when the biome source is created.
         CaveLayer.addCaveBiome(biome, noise);
-    }
-
-    // Compatibility with 1.0
-    public static void addCaveBiome(RegistryKey<Biome> biome) {
-        addCaveBiome(biome, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
     }
 
     /**
