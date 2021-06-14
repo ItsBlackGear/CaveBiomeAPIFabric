@@ -33,16 +33,14 @@ public class CaveBiomeAPI {
     }
 
     /**
-     * Injects the CaveBiome generation into a biomeProvider
-     *
-     * @implNote we don't make cave biomes spawn at y0 because otherwise entities and structures don't spawn.
+     * Injects the CaveBiome generation into a biomeSource
      *
      * @param surfaceBiomes the generated surface biomes
      * @param x the {@link net.minecraft.world.biome.source.BiomeSource#getBiomeForNoiseGen(int, int, int)} x value
      * @param y the {@link net.minecraft.world.biome.source.BiomeSource#getBiomeForNoiseGen(int, int, int)} y value
      * @param z the {@link net.minecraft.world.biome.source.BiomeSource#getBiomeForNoiseGen(int, int, int)} z value
      *
-     * @return the CaveBiomes injected into the biomeProvider
+     * @return the CaveBiomes injected into the biomeSource
      * @see com.alphastudios.cavebiomeapi.mixin.VanillaLayeredBiomeSourceMixin#getBiomeForNoiseGen(int, int, int)
      */
     public static Biome injectCaveBiomes(Biome surfaceBiomes, int x, int y, int z) {
@@ -72,6 +70,7 @@ public class CaveBiomeAPI {
      * Injects a CaveBiome into the biomeSource
      *
      * @param biome the biome for injection
+     * @param noise the mixed noise point used for generation
      */
     public static void addCaveBiome(Biome biome, Biome.MixedNoisePoint noise) {
         if (biome == null || BuiltinRegistries.BIOME.getKey(biome).isEmpty()) {

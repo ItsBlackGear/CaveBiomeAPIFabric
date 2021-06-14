@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.alphastudios.cavebiomeapi.core.CavesAPI;
 import com.alphastudios.cavebiomeapi.mixin.MultiNoiseBiomeSourceAccessor;
 import com.google.common.base.Preconditions;
 import com.mojang.datafixers.util.Pair;
@@ -38,7 +39,7 @@ public class CaveLayer {
 		CAVE_BIOMES.put(biome, noise);
 	}
 
-	public static final MultiNoiseBiomeSource.Preset CENTER_BIOME_SOURCE = new MultiNoiseBiomeSource.Preset(new Identifier("cavebiomes", "cave_biome_source"), (preset, registry, long_) -> {
+	public static final MultiNoiseBiomeSource.Preset CENTER_BIOME_SOURCE = new MultiNoiseBiomeSource.Preset(new Identifier(CavesAPI.MOD_ID, "cave_biome_source"), (preset, registry, long_) -> {
 		List<Pair<Biome.MixedNoisePoint, Supplier<Biome>>> biomes = new ArrayList<>();
 		CAVE_BIOMES.forEach((biomeKey, noisePoint) -> {
 			Biome biome = registry.getOrThrow(biomeKey);
