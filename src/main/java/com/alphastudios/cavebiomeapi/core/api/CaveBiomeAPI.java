@@ -45,7 +45,7 @@ public class CaveBiomeAPI {
      * @see com.alphastudios.cavebiomeapi.mixin.VanillaLayeredBiomeSourceMixin#getBiomeForNoiseGen(int, int, int)
      */
     public static Biome injectCaveBiomes(Biome surfaceBiomes, Registry<Biome> biomeRegistry, int x, int y, int z) {
-        if (y <= 12 && y >= DimensionType.MIN_HEIGHT + 1) {
+        if (y <= 12) {
             return sample(biomeRegistry, x, z);
         }
         return surfaceBiomes;

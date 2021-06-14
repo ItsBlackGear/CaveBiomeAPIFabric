@@ -52,4 +52,11 @@ public class ChunkGeneratorMixin {
             throw new CrashException(crashReport);
         }
     }
+
+
+    @Redirect(method = "setStructureStarts(Lnet/minecraft/util/registry/DynamicRegistryManager;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/chunk/Chunk;Lnet/minecraft/structure/StructureManager;J)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/source/BiomeSource;getBiomeForNoiseGen(Lnet/minecraft/util/math/ChunkPos;)Lnet/minecraft/world/biome/Biome;"))
+    private Biome setStructureStarts(BiomeSource source, ChunkPos chunkPos) {
+        return source.getBiomeForNoiseGen(BiomeCoords.fromChunk(chunkPos.x) + BiomeCoords.fromBlock(8), 64, BiomeCoords.fromChunk(chunkPos.z) + BiomeCoords.fromBlock(8));
+    }
 }

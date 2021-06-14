@@ -4,6 +4,7 @@
   "package": "com.alphastudios.cavebiomeapi.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "BiomeAccessMixin",
     "ChunkGeneratorMixin",
     "HorizontalVoronoiBiomeAccessTypeMixin",
     "LayerAccessor",
