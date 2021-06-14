@@ -20,6 +20,9 @@ import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 
 //<>
 
+/**
+ * @author LudoCrypt
+ */
 public class CaveLayer {
 	public static final Map<RegistryKey<Biome>, Biome.MixedNoisePoint> CAVE_BIOMES = new HashMap<>();
 	public static final List<Biome> CAVE_BIOME_LIST = new ArrayList<>();

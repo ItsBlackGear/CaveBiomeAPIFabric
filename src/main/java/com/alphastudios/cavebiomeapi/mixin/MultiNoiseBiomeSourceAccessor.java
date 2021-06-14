@@ -13,6 +13,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 
+/**
+ * @author LudoCrypt
+ */
 @Mixin(MultiNoiseBiomeSource.class)
 public interface MultiNoiseBiomeSourceAccessor {
 	@Invoker("<init>")

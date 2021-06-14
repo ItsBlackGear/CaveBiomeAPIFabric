@@ -21,16 +21,17 @@ public class VanillaLayeredBiomeSourceMixin {
     @Shadow @Final private Registry<Biome> biomeRegistry;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void initialize(long seed, boolean legacyBiomeInitLayer, boolean largeBiomes, Registry<Biome> biomeRegistry, CallbackInfo ci) {
+    public void cba$initialize(long seed, boolean legacyBiomeInitLayer, boolean largeBiomes, Registry<Biome> biomeRegistry, CallbackInfo ci) {
         CaveBiomeAPI.initializeCaveBiomes(biomeRegistry, seed);
     }
 
     /**
      * @author BlackGear27
+     * @reason collecting the surface biomes and injecting them along the underground biomes.
      */
     @Overwrite
     public Biome getBiomeForNoiseGen(int x, int y, int z) {
         Biome surfaceBiome = this.biomeSampler.sample(this.biomeRegistry, x, z);
-        return CaveBiomeAPI.injectCaveBiomes(surfaceBiome, this.biomeRegistry, x, y, z);
+        return CaveBiomeAPI.injectCaveBiomes(surfaceBiome, x, y, z);
     }
 }

@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //<>
 
 /**
- * Hello, this API allows the developers to generate their own cave biomes in the world. if you're looking for the API:
+ * Hello, this API allows the developers to generate their own cave biomes in the world.
+ * Special Thanks go to TelepathicGrunt, CorgiTaco and LudoCrypt who contributed with a lot of code and knowledge.
  *
- * @see CaveBiomeAPI
+ * @apiNote the API by itself it's in the {@link CaveBiomeAPI} class.
  */
 public class CavesAPI implements ModInitializer {
-    public static final String MOD_ID = "cavebiomes";
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final String MOD_ID = "cavebiomeapi";
 
     @Override
     public void onInitialize() {

@@ -17,11 +17,14 @@ import java.util.function.Supplier;
 
 //<>
 
+/**
+ * @author TelepathicGrunt
+ */
 public class FeatureGenerationHelper {
     /**
      * Will not spawn any structure and instead, only features.
      */
-    public static void generateOnlyFeatures(Biome biome, StructureAccessor accessor, ChunkGenerator generator, ChunkRegion region, long seed, ChunkRandom rand, BlockPos pos) {
+    public static void generateOnlyFeatures(Biome biome, ChunkGenerator generator, ChunkRegion region, long seed, ChunkRandom rand, BlockPos pos) {
         List<List<Supplier<ConfiguredFeature<?, ?>>>> list = biome.getGenerationSettings().getFeatures();
         for (int generationStageIndex = 0; generationStageIndex < GenerationStep.Feature.values().length; ++generationStageIndex) {
             int featureIndex = 1001; // offset index by 1001 so decorators for features do not exactly line up with features on surface biomes.

@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 public class HorizontalVoronoiBiomeAccessTypeMixin {
     /**
      * @author CorgiTaco
+     * @reason by default it locates the biome on a 2D map, this method modifies that and allows the BiomeAccessType to return the Y Axis as well.
      */
     @Overwrite
     public Biome getBiome(long seed, int x, int y, int z, BiomeAccess.Storage storage) {

@@ -1,18 +1,22 @@
 {
   "schemaVersion": 1,
-  "id": "cavebiomes",
+  "id": "cavebiomeapi",
   "version": "${version}",
   "name": "CaveBiomeAPI",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "This mod allows developers to add actual underground biomes to give more life to the depths of our beloved worlds!",
+  "authors": [
+    "BlackGear27"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/cavebiomeapi-fabric",
+    "sources" : "https://github.com/ItsBlackGear/CaveBiomeAPIFabric",
+    "issues"  : "https://github.com/ItsBlackGear/CaveBiomeAPIFabric/issues",
+    "discord" : "https://discord.com/invite/fTzK9SP"
+  },
   "license": "MIT",
   "icon": "assets/cavebiomeapi/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "com.alphastudios.cavebiomeapi.core.CavesAPIClient"
-    ],
     "main": [
       "com.alphastudios.cavebiomeapi.core.CavesAPI"
     ]
