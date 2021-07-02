@@ -13,6 +13,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 
+//<>
+
 /**
  * @author LudoCrypt
  */
@@ -20,6 +22,11 @@ import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 public interface MultiNoiseBiomeSourceAccessor {
 	@Invoker("<init>")
 	public static MultiNoiseBiomeSource createMultiNoiseBiomeSource(long seed, List<Pair<Biome.MixedNoisePoint, Supplier<Biome>>> biomePoints, Optional<Pair<Registry<Biome>, MultiNoiseBiomeSource.Preset>> instance) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Invoker("<init>")
+	public static MultiNoiseBiomeSource createMultiNoiseBiomeSource(long seed, List<Pair<Biome.MixedNoisePoint, Supplier<Biome>>> biomePoints, MultiNoiseBiomeSource.NoiseParameters temperatureNoiseParameters, MultiNoiseBiomeSource.NoiseParameters humidityNoiseParameters, MultiNoiseBiomeSource.NoiseParameters altitudeNoiseParameters, MultiNoiseBiomeSource.NoiseParameters weirdnessNoiseParameters, Optional<Pair<Registry<Biome>, MultiNoiseBiomeSource.Preset>> instance) {
 		throw new UnsupportedOperationException();
 	}
 }

@@ -45,6 +45,13 @@ public class CaveLayer {
 			Biome biome = registry.getOrThrow(biomeKey);
 			biomes.add(Pair.of(noisePoint, () -> biome));
 		});
-		return MultiNoiseBiomeSourceAccessor.createMultiNoiseBiomeSource(long_, biomes, Optional.of(Pair.of(registry, preset)));
+
+		MultiNoiseBiomeSource.NoiseParameters altitudeNoise = new MultiNoiseBiomeSource.NoiseParameters(-9, 1.0D, 0.0D, 3.0D, 3.0D, 3.0D, 3.0D);
+		MultiNoiseBiomeSource.NoiseParameters temperatureNoise = new MultiNoiseBiomeSource.NoiseParameters(-7, 1.0D, 2.0D, 4.0D, 4.0D);
+		MultiNoiseBiomeSource.NoiseParameters humidityNoise = new MultiNoiseBiomeSource.NoiseParameters(-9, 1.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.0D);
+		MultiNoiseBiomeSource.NoiseParameters weirdnessNoise = new MultiNoiseBiomeSource.NoiseParameters(-8, 1.2D, 0.6D, 0.0D, 0.0D, 1.0D, 0.0D);
+
+		return MultiNoiseBiomeSourceAccessor.createMultiNoiseBiomeSource(long_, biomes, altitudeNoise, temperatureNoise, humidityNoise, weirdnessNoise, Optional.empty());
+//		return MultiNoiseBiomeSourceAccessor.createMultiNoiseBiomeSource(long_, biomes, Optional.of(Pair.of(registry, preset)));
 	});
 }
