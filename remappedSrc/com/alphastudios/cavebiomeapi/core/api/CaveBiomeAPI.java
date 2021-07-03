@@ -86,8 +86,8 @@ public class CaveBiomeAPI {
      */
     public static void addDefaultCaves() {
 		CaveBiomeAPI.addCaveBiome(CaveBiomes.CAVE, new Biome.MixedNoisePoint(0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-		CaveBiomeAPI.addCaveBiome(BiomeKeys.LUSH_CAVES, new Biome.MixedNoisePoint(0.2F, 0.545F, 0.0F, 0.25F, 0.345F));
-		CaveBiomeAPI.addCaveBiome(BiomeKeys.DRIPSTONE_CAVES, new Biome.MixedNoisePoint(-0.15F, 0.2F, 0.0F, -0.375F, -0.2F));
+		CaveBiomeAPI.addCaveBiome(BiomeKeys.LUSH_CAVES, new Biome.MixedNoisePoint(-0.2F, 0.2F, 0.325F, -0.15F, 0.0F));
+		CaveBiomeAPI.addCaveBiome(BiomeKeys.DRIPSTONE_CAVES, new Biome.MixedNoisePoint(0.0F, -0.325F, -0.275F, 0.2F, 0.0F));
     }
 
     static {
