@@ -22,8 +22,7 @@ public class CaveBiomes {
 
     private static RegistryKey<Biome> registerBiome(String key, Biome biome) {
         Identifier identifier = new Identifier(CavesAPI.MOD_ID, key);
-        BuiltinRegistries.add(BuiltinRegistries.BIOME, new Identifier(CavesAPI.MOD_ID, key), biome);
-
+        BuiltinRegistries.add(BuiltinRegistries.BIOME, identifier, biome);
         return RegistryKey.of(Registry.BIOME_KEY, identifier);
     }
 
