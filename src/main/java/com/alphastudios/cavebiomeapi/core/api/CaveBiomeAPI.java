@@ -9,6 +9,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 
 //<>
@@ -44,7 +45,7 @@ public class CaveBiomeAPI {
      * @see com.alphastudios.cavebiomeapi.mixin.VanillaLayeredBiomeSourceMixin#getBiomeForNoiseGen(int, int, int)
      */
     public static Biome injectCaveBiomes(Biome surfaceBiomes, int x, int y, int z) {
-        if (y <= 12) {
+        if (y <= BiomeCoords.fromBlock(12) && y != BiomeCoords.fromBlock(0)) {
             return caveBiomeSource.getBiomeForNoiseGen(x, 0, z);
         }
         return surfaceBiomes;
