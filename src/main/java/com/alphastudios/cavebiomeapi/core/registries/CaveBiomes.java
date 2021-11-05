@@ -42,7 +42,7 @@ public class CaveBiomes {
         DefaultBiomeFeatures.addDefaultVegetation(generationSettings);
         DefaultBiomeFeatures.addSprings(generationSettings);
         DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
-        return new Biome.Builder().precipitation(Biome.Precipitation.RAIN).category(Biome.Category.UNDERGROUND).depth(0.125F).scale(0.05F).temperature(0.8F).downfall(0.4F).effects(new BiomeEffects.Builder().waterColor(4159204).waterFogColor(329011).fogColor(12638463).skyColor(getSkyColorWithTemperatureModifier()).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(spawnSettings.build()).generationSettings(generationSettings.build()).build();
+        return new Biome.Builder().precipitation(Biome.Precipitation.RAIN).category(Biome.Category.UNDERGROUND).depth(0.125F).scale(0.05F).temperature(0.8F).downfall(0.4F).effects(new BiomeEffects.Builder().waterColor(0x0d67bb).waterFogColor(0x0d67bb).fogColor(0x000000).skyColor(getSkyColorWithTemperatureModifier()).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(spawnSettings.build()).generationSettings(generationSettings.build()).build();
     }
 
     private static int getSkyColorWithTemperatureModifier() {
