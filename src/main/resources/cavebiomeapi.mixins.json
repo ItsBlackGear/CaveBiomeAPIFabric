@@ -14,7 +14,8 @@
     "structure.WoodlandMansionFeatureMixin"
   ],
   "client": [
-    "BiomeColorsMixin"
+    "BiomeColorsMixin",
+    "WorldRendererWeatherMixin"
   ],
   "injectors": {
     "defaultRequire": 1
