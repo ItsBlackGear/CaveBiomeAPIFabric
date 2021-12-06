@@ -45,14 +45,10 @@ public abstract class WorldRendererWeatherMixin {
           Biome biome = this.client.world.getBiome(pos); //determine biome at pos
           BlockPos topPos = new BlockPos(pos.getX(), this.client.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, pos).getY(), pos.getZ());
     	  float temp = biome.getTemperature(topPos);
-    	  boolean weatherTransition = false;
-    	  boolean weatherlessTransition = false;
-    	  if (temp > 0.10F && temp < 0.20F) weatherTransition = true;
-    	  if (temp > 1.00F && temp < 1.10F) weatherlessTransition = true;
     	  
           if (topPos.getY() < pos.getY()) {
               if (this.client.world.getDimension() != this.client.world.getRegistryManager().get(Registry.DIMENSION_TYPE_KEY).get(DimensionType.THE_END_ID)) { //crashes in 1.16
-                  if (temp >= 0.10F && temp <= 1.10F) {
+                  if (temp >= 0.15F && temp <= 1.0F) {
                 	  float h = this.client.world.getRainGradient(f);
                       if (!(h <= 0.0F)) {
                          manager.enable();
@@ -114,8 +110,6 @@ public abstract class WorldRendererWeatherMixin {
                                      double ab = (double)o + 0.5D - g;
                                      float ac = (float)Math.sqrt(aa * aa + ab * ab) / (float)l;
                                      ad = ((1.0F - ac * ac) * 0.5F + 0.5F) * h;
-                                     if (weatherTransition) ad = ad * (Math.min(0.10F, temp-0.10F)/0.10F);
-                                     else if (weatherlessTransition) ad = ad * (1-(Math.min(0.10F, temp-0.10F)/0.10F));
                                      int ae = WorldRenderer.getLightmapCoordinates(world, pos);
                                      bufferBuilder.vertex((double)p - d - r + 0.5D, (double)v - e, (double)o - g - s + 0.5D).texture(0.0F, (float)u * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
                                      bufferBuilder.vertex((double)p - d + r + 0.5D, (double)v - e, (double)o - g + s + 0.5D).texture(1.0F, (float)u * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
@@ -136,7 +130,7 @@ public abstract class WorldRendererWeatherMixin {
                       }
                     } 
                   	
-                    if (temp <= 0.20F) {
+                    if (temp <= 0.15F) {
                 	  float h = this.client.world.getRainGradient(f);
                       if (!(h <= 0.0F)) {
                          manager.enable();
@@ -200,7 +194,6 @@ public abstract class WorldRendererWeatherMixin {
                                      double aj = (double)o + 0.5D - g;
                                      ad = (float)Math.sqrt(ai * ai + aj * aj) / (float)l;
                                      float al = ((1.0F - ad * ad) * 0.3F + 0.5F) * h;
-                                     if (weatherTransition) al = al * (1-(Math.min(0.10F, temp-0.10F)/0.10F));
                                      int am = WorldRenderer.getLightmapCoordinates(world, pos);
                                      int an = am >> 16 & '\uffff';
                                      int ao = am & '\uffff';
