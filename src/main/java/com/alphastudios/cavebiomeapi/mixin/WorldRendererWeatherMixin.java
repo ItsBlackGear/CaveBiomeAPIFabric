@@ -39,187 +39,131 @@ public abstract class WorldRendererWeatherMixin {
 	
 	@Inject(method = "renderWeather", at = @At("HEAD"), cancellable = true)
     private void renderWeatherCorrectly(LightmapTextureManager manager, float f, double d, double e, double g, CallbackInfo ci) {
-      
-	  if (this.client.world.isRaining()) {
-		  BlockPos pos = this.client.getCameraEntity().getCameraBlockPos(); //get block camera is at
-          Biome biome = this.client.world.getBiome(pos); //determine biome at pos
-          BlockPos topPos = new BlockPos(pos.getX(), this.client.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, pos).getY(), pos.getZ());
-    	  float temp = biome.getTemperature(topPos);
-    	  
-          if (topPos.getY() < pos.getY()) {
-              if (this.client.world.getDimension() != this.client.world.getRegistryManager().get(Registry.DIMENSION_TYPE_KEY).get(DimensionType.THE_END_ID)) { //crashes in 1.16
-                  if (temp >= 0.15F && temp <= 1.0F) {
-                	  float h = this.client.world.getRainGradient(f);
-                      if (!(h <= 0.0F)) {
-                         manager.enable();
-                         World world = this.client.world;
-                         int i = MathHelper.floor(d);
-                         int j = MathHelper.floor(e);
-                         int k = MathHelper.floor(g);
-                         Tessellator tessellator = Tessellator.getInstance();
-                         BufferBuilder bufferBuilder = tessellator.getBuffer();
-                         RenderSystem.disableCull();
-                         RenderSystem.enableBlend();
-                         RenderSystem.defaultBlendFunc();
-                         RenderSystem.enableDepthTest();
-                         int l = 5;
-                         if (MinecraftClient.isFancyGraphicsOrBetter()) {
-                            l = 10;
-                         }
-
-                         RenderSystem.depthMask(MinecraftClient.isFabulousGraphicsOrBetter());
-                         int m = -1;
-                         RenderSystem.setShader(GameRenderer::getParticleShader);
-                         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-                         for(int o = k - l; o <= k + l; ++o) {
-                            for(int p = i - l; p <= i + l; ++p) {
-                               int q = (o - k + 16) * 32 + p - i + 16;
-                               double r = (double)this.field_20794[q] * 0.5D;
-                               double s = (double)this.field_20795[q] * 0.5D;
-                               if (biome.getPrecipitation() != Biome.Precipitation.NONE) {
-                                  int t = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, pos).getY();
-                                  int u = j - l;
-                                  int v = j + l;
-                                  if (u < t) {
-                                     u = t;
-                                  }
-
-                                  if (v < t) {
-                                     v = t;
-                                  }
-
-                                  if (u != v) {
-                                     Random random = new Random((long)(p * p * 3121 + p * 45238971 ^ o * o * 418711 + o * 13761));
-                                     float z;
-                                     float ad;
-
-                                     if (m != 0) {
-                                        if (m >= 0) {
-                                           tessellator.draw();
-                                        }
-
-                                        m = 0;
-                                        RenderSystem.setShaderTexture(0, RAIN);
-                                        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
-                                     }
-
-                                     int y = this.ticks + p * p * 3121 + p * 45238971 + o * o * 418711 + o * 13761 & 31;
-                                     z = -((float)y + f) / 32.0F * (3.0F + random.nextFloat());
-                                     double aa = (double)p + 0.5D - d;
-                                     double ab = (double)o + 0.5D - g;
-                                     float ac = (float)Math.sqrt(aa * aa + ab * ab) / (float)l;
-                                     ad = ((1.0F - ac * ac) * 0.5F + 0.5F) * h;
-                                     int ae = WorldRenderer.getLightmapCoordinates(world, pos);
-                                     bufferBuilder.vertex((double)p - d - r + 0.5D, (double)v - e, (double)o - g - s + 0.5D).texture(0.0F, (float)u * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
-                                     bufferBuilder.vertex((double)p - d + r + 0.5D, (double)v - e, (double)o - g + s + 0.5D).texture(1.0F, (float)u * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
-                                     bufferBuilder.vertex((double)p - d + r + 0.5D, (double)u - e, (double)o - g + s + 0.5D).texture(1.0F, (float)v * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
-                                     bufferBuilder.vertex((double)p - d - r + 0.5D, (double)u - e, (double)o - g - s + 0.5D).texture(0.0F, (float)v * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
-                                  }
-                               }
-                            }
-                         }
-
-                         if (m >= 0) {
-                            tessellator.draw();
-                         }
-
-                         RenderSystem.enableCull();
-                         RenderSystem.disableBlend();
-                         manager.disable();
-                      }
-                    } 
-                  	
-                    if (temp <= 0.15F) {
-                	  float h = this.client.world.getRainGradient(f);
-                      if (!(h <= 0.0F)) {
-                         manager.enable();
-                         World world = this.client.world;
-                         int i = MathHelper.floor(d);
-                         int j = MathHelper.floor(e);
-                         int k = MathHelper.floor(g);
-                         Tessellator tessellator = Tessellator.getInstance();
-                         BufferBuilder bufferBuilder = tessellator.getBuffer();
-                         RenderSystem.disableCull();
-                         RenderSystem.enableBlend();
-                         RenderSystem.defaultBlendFunc();
-                         RenderSystem.enableDepthTest();
-                         int l = 5;
-                         if (MinecraftClient.isFancyGraphicsOrBetter()) {
-                            l = 10;
-                         }
-
-                         RenderSystem.depthMask(MinecraftClient.isFabulousGraphicsOrBetter());
-                         int m = -1;
-                         float n = (float)this.ticks + f;
-                         RenderSystem.setShader(GameRenderer::getParticleShader);
-                         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-                         for(int o = k - l; o <= k + l; ++o) {
-                            for(int p = i - l; p <= i + l; ++p) {
-                               int q = (o - k + 16) * 32 + p - i + 16;
-                               double r = (double)this.field_20794[q] * 0.5D;
-                               double s = (double)this.field_20795[q] * 0.5D;
-                               if (biome.getPrecipitation() != Biome.Precipitation.NONE) {
-                                  int t = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, pos).getY();
-                                  int u = j - l;
-                                  int v = j + l;
-                                  if (u < t) {
-                                     u = t;
-                                  }
-
-                                  if (v < t) {
-                                     v = t;
-                                  }
-
-                                  if (u != v) {
-                                     Random random = new Random((long)(p * p * 3121 + p * 45238971 ^ o * o * 418711 + o * 13761));
-                                     float z;
-                                     float ad;
-                                     
-                                     if (m != 1) {
-                                        if (m >= 0) {
-                                           tessellator.draw();
-                                        }
-
-                                        m = 1;
-                                        RenderSystem.setShaderTexture(0, SNOW);
-                                        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
-                                     }
-
-                                     float af = -((float)(this.ticks & 511) + f) / 512.0F;
-                                     z = (float)(random.nextDouble() + (double)n * 0.01D * (double)((float)random.nextGaussian()));
-                                     float ah = (float)(random.nextDouble() + (double)(n * (float)random.nextGaussian()) * 0.001D);
-                                     double ai = (double)p + 0.5D - d;
-                                     double aj = (double)o + 0.5D - g;
-                                     ad = (float)Math.sqrt(ai * ai + aj * aj) / (float)l;
-                                     float al = ((1.0F - ad * ad) * 0.3F + 0.5F) * h;
-                                     int am = WorldRenderer.getLightmapCoordinates(world, pos);
-                                     int an = am >> 16 & '\uffff';
-                                     int ao = am & '\uffff';
-                                     int ap = (an * 3 + 240) / 4;
-                                     int aq = (ao * 3 + 240) / 4;
-                                     bufferBuilder.vertex((double)p - d - r + 0.5D, (double)v - e, (double)o - g - s + 0.5D).texture(0.0F + z, (float)u * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
-                                     bufferBuilder.vertex((double)p - d + r + 0.5D, (double)v - e, (double)o - g + s + 0.5D).texture(1.0F + z, (float)u * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
-                                     bufferBuilder.vertex((double)p - d + r + 0.5D, (double)u - e, (double)o - g + s + 0.5D).texture(1.0F + z, (float)v * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
-                                     bufferBuilder.vertex((double)p - d - r + 0.5D, (double)u - e, (double)o - g - s + 0.5D).texture(0.0F + z, (float)v * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
-                                  }
-                               }
-                            }
-                         }
-
-                         if (m >= 0) {
-                            tessellator.draw();
-                         }
-
-                         RenderSystem.enableCull();
-                         RenderSystem.disableBlend();
-                         manager.disable();
-                      }
-                    }
-                  }
-              }
-          }
-	  	ci.cancel();
-	  }
+	  
+		if (this.client.world.isRaining()) {
+			
+			float h = this.client.world.getRainGradient(f);
+			if (!(h <= 0.0F)) {
+			   manager.enable();
+			   World world = this.client.world;
+			   int i = MathHelper.floor(d);
+			   int j = MathHelper.floor(e);
+			   int k = MathHelper.floor(g);
+			   Tessellator tessellator = Tessellator.getInstance();
+			   BufferBuilder bufferBuilder = tessellator.getBuffer();
+			   RenderSystem.disableCull();
+			   RenderSystem.enableBlend();
+			   RenderSystem.defaultBlendFunc();
+			   RenderSystem.enableDepthTest();
+			   int l = 5;
+			   if (MinecraftClient.isFancyGraphicsOrBetter()) {
+			      l = 10;
+			   }
+			
+			   RenderSystem.depthMask(MinecraftClient.isFabulousGraphicsOrBetter());
+			   int m = -1;
+			   float n = (float)this.ticks + f;
+			   RenderSystem.setShader(GameRenderer::getParticleShader);
+			   RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			   BlockPos.Mutable mutable = new BlockPos.Mutable();
+			
+			   for(int o = k - l; o <= k + l; ++o) {
+			      for(int p = i - l; p <= i + l; ++p) {
+			         int q = (o - k + 16) * 32 + p - i + 16;
+			         double r = (double)this.field_20794[q] * 0.5D;
+			         double s = (double)this.field_20795[q] * 0.5D;
+			         mutable.set(p, 64, o);
+			         Biome biome = world.getBiome(mutable);
+			         if (biome.getPrecipitation() != Biome.Precipitation.NONE) {
+			            int t = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, mutable).getY();
+			            int u = j - l;
+			            int v = j + l;
+			            if (u < t) {
+			               u = t;
+			            }
+		
+			            if (v < t) {
+			               v = t;
+			            }
+			
+			            int w = t;
+			            if (t < j) {
+			               w = j;
+			            }
+			
+			            if (u != v) {
+			               Random random = new Random((long)(p * p * 3121 + p * 45238971 ^ o * o * 418711 + o * 13761));
+			               mutable.set(p, u, o);
+			               float x = biome.getTemperature(mutable);
+			               float z;
+			               float ad;
+			               if (x >= 0.15F) {
+			                  if (m != 0) {
+			                     if (m >= 0) {
+			                        tessellator.draw();
+			                     }
+			
+			                     m = 0;
+			                     RenderSystem.setShaderTexture(0, RAIN);
+			                     bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
+			                  }
+			
+			                  int y = this.ticks + p * p * 3121 + p * 45238971 + o * o * 418711 + o * 13761 & 31;
+			                  z = -((float)y + f) / 32.0F * (3.0F + random.nextFloat());
+			                  double aa = (double)p + 0.5D - d;
+			                  double ab = (double)o + 0.5D - g;
+			                  float ac = (float)Math.sqrt(aa * aa + ab * ab) / (float)l;
+			                  ad = ((1.0F - ac * ac) * 0.5F + 0.5F) * h;
+			                  mutable.set(p, w, o);
+			                  int ae = WorldRenderer.getLightmapCoordinates(world, mutable);
+			                  bufferBuilder.vertex((double)p - d - r + 0.5D, (double)v - e, (double)o - g - s + 0.5D).texture(0.0F, (float)u * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
+			                  bufferBuilder.vertex((double)p - d + r + 0.5D, (double)v - e, (double)o - g + s + 0.5D).texture(1.0F, (float)u * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
+			                  bufferBuilder.vertex((double)p - d + r + 0.5D, (double)u - e, (double)o - g + s + 0.5D).texture(1.0F, (float)v * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
+			                  bufferBuilder.vertex((double)p - d - r + 0.5D, (double)u - e, (double)o - g - s + 0.5D).texture(0.0F, (float)v * 0.25F + z).color(1.0F, 1.0F, 1.0F, ad).light(ae).next();
+			               } else {
+			                  if (m != 1) {
+			                     if (m >= 0) {
+			                        tessellator.draw();
+			                     }
+		
+			                     m = 1;
+			                     RenderSystem.setShaderTexture(0, SNOW);
+			                     bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
+			                  }
+			
+			                  float af = -((float)(this.ticks & 511) + f) / 512.0F;
+			                  z = (float)(random.nextDouble() + (double)n * 0.01D * (double)((float)random.nextGaussian()));
+			                  float ah = (float)(random.nextDouble() + (double)(n * (float)random.nextGaussian()) * 0.001D);
+			                  double ai = (double)p + 0.5D - d;
+			                  double aj = (double)o + 0.5D - g;
+			                  ad = (float)Math.sqrt(ai * ai + aj * aj) / (float)l;
+			                  float al = ((1.0F - ad * ad) * 0.3F + 0.5F) * h;
+			                  mutable.set(p, w, o);
+			                  int am = WorldRenderer.getLightmapCoordinates(world, mutable);
+			                  int an = am >> 16 & '\uffff';
+			        	      int ao = am & '\uffff';
+			                  int ap = (an * 3 + 240) / 4;
+			                  int aq = (ao * 3 + 240) / 4;
+			                  bufferBuilder.vertex((double)p - d - r + 0.5D, (double)v - e, (double)o - g - s + 0.5D).texture(0.0F + z, (float)u * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
+			                  bufferBuilder.vertex((double)p - d + r + 0.5D, (double)v - e, (double)o - g + s + 0.5D).texture(1.0F + z, (float)u * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
+			                  bufferBuilder.vertex((double)p - d + r + 0.5D, (double)u - e, (double)o - g + s + 0.5D).texture(1.0F + z, (float)v * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
+			                  bufferBuilder.vertex((double)p - d - r + 0.5D, (double)u - e, (double)o - g - s + 0.5D).texture(0.0F + z, (float)v * 0.25F + af + ah).color(1.0F, 1.0F, 1.0F, al).light(aq, ap).next();
+			               }
+			            }
+			         }
+			      }
+			   }
+			
+			   if (m >= 0) {
+			     tessellator.draw();
+			   }
+			
+			   RenderSystem.enableCull();
+			   RenderSystem.disableBlend();
+			   manager.disable();
+			}
+		}
+		
+		ci.cancel();
+	}
 }
